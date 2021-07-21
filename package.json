@@ -1,0 +1,14 @@
+{
+  "name": "clusters",
+  "version": "1.0.0",
+  "description": "tcc",
+  "main": "index.js",
+  "scripts": {
+    "test": "testcluster"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mysql2": "^2.2.5"
+  }
+}

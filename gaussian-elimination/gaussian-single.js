@@ -1,20 +1,19 @@
-init();
-
-function init() {
-   test();
-}
+const express = require('express');
+const app = express();
 
 /**
  * Sistema:
- * 2x + y - 3z = -1
- * -x + 3y + 2z = 12
- * 3x + y - 3z = 0
+ * 0 + 1/3y - 1/3z = -1/3
+ * 0 + 14/3y + 7/3z = 49/3
+ * 3x + 2y + 4z = 19
  */
-function test() {
-    let A = [[2, 1, -3], [-1, 3, 2], [3, 1, -3]];
-    let x = [-1, 12, 0];
-    console.log(doGaussianElimination(A, x));
-}
+app.get('/', (req, res) => {
+    const A = [[0, (1/3), (-1/3)], [0, (14/3), (7/3)], [3, 2, 4]];
+    const x = [(-1/3), (49/3), 19];
+    res.send(doGaussianElimination(A, x));
+});
+
+app.listen(8080);
 
 /**
  * Eliminacao de Gauss

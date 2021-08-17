@@ -25,7 +25,7 @@ function doSieveOfEratosthenes(n) {
 
     for (let i = 2; i <= limit; i++) {
         if (values[i]) {
-            for (var j = i * i; j < n; j += i) values[j] = false;            
+            for (let j = i * i; j < n; j += i) values[j] = false;            
         }
     }
 

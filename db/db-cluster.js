@@ -1,12 +1,21 @@
+const cluster = require('cluster');
 const express = require('express');
 const app = express();
 
-app.get('/', (req, res) => {
-    res.send(doDatabaseTest());
-});
-
-app.listen(8080);
-
+const cpus = !process.argv[2] ? require('os').cpus().length : process.argv[2];
+if (cluster.isMaster) {
+    for (let i = 0; i < cpus; i++) {
+        console.log(`Worker ${i} is on`);
+        cluster.fork();
+    }
+}
+else {
+    app.get('/', (req, res) => {
+        res.send(doDatabaseTest());
+    });
+    
+    app.listen(8080);
+}
 async function connect(){
     if(global.connection && global.connection.state !== 'disconnected')
         return global.connection;

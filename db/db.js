@@ -5,6 +5,14 @@ app.get('/', (req, res) => {
     res.send(doDatabaseTest());
 });
 
+app.get('/create', (req, res) => {
+    res.send(createTable());
+});
+
+app.get('/drop', (req, res) => {
+    res.send(dropTable());
+});
+
 app.listen(8080);
 
 async function connect(){
@@ -12,52 +20,42 @@ async function connect(){
         return global.connection;
 
     const mysql = require('mysql2/promise');
-    const connect = await mysql.createConnection('mysql://root:password@localhost:3306/mysql');
+    const connect = await mysql.createConnection('mysql://root:password@localhost:3306/bancomysql');
     global.connection = connect;
-    console.log('Conectou no MySQL!');
     return connect;
+}
+
+async function createTable() {
+    const conn = await connect();
+    let sql = `CREATE TABLE pessoa (ORDID INT NOT NULL AUTO_INCREMENT, NOME varchar(50), NASCIMENTO date,
+        SEXO varchar(1), CIDADE varchar(50), ENDERECO varchar(50), NUMERO int, PRIMARY KEY (ORDID))`;
+    conn.query(sql).then(() => {
+        console.log("Criou tabela!");
+    });
+}
+
+async function dropTable() {
+    const conn = await connect();
+    conn.query('DROP TABLE pessoa').then(() => {
+        console.log("Dropou a tabela!");
+    });
 }
 
 async function doDatabaseTest() {
     const conn = await connect();
-    let sql = 'CREATE DATABASE mydb'
+    sql = `INSERT INTO pessoa (NOME, NASCIMENTO, SEXO, CIDADE,ENDERECO, NUMERO) 
+        VALUES ('Bruno Caregnato', str_to_date('12-02-1996','%m-%d-%Y'), 'M' , 'Porto Alegre', 
+            'Avenida Protasio Alves', 255)`;
     conn.query(sql).then(() => {
-        console.log("Criou database!");
-        sql = `CREATE TABLE pessoa (NOME varchar(50), NASCIMENTO date,
-            SEXO varchar(1), CIDADE varchar(50), ENDERECO varchar(50), NUMERO int)`
+        sql = 'SELECT * FROM pessoa';
         conn.query(sql).then(() => {
-            console.log("Criou tabela!");
-            sql = `INSERT INTO pessoa (NOME, NASCIMENTO, SEXO, CIDADE,ENDERECO, NUMERO) 
-                VALUES ('Bruno Caregnato', str_to_date('12-02-1996','%m-%d-%Y'), 'M' , 'Porto Alegre', 
-                    'Avenida Protasio Alves', 255)`;
+            sql = `UPDATE pessoa SET CIDADE = 'Caxias do Sul' WHERE NOME = 'Bruno Caregnato'`;
             conn.query(sql).then(() => {
-                console.log("Deu insert na tabela!");
-                sql = 'SELECT * FROM pessoa';
+                sql = `DELETE FROM pessoa WHERE NOME = 'Bruno Caregnato'`;
                 conn.query(sql).then(() => {
-                    console.log("Fez select na tabela!");
-                    sql = `UPDATE pessoa SET CIDADE = 'Caxias do Sul' WHERE NOME = 'Bruno Caregnato'`;
-                    conn.query(sql).then(() => {
-                        console.log("Fez update na tabela!");
-                        sql = `DELETE FROM pessoa WHERE NOME = 'Bruno Caregnato'`;
-                        conn.query(sql).then(() => {
-                            console.log("Deletou da tabela!");
-                            sql = 'DROP TABLE pessoa';
-                            conn.query(sql).then(() => {
-                                console.log("Dropou a tabela!");
-                                sql = 'DROP DATABASE mydb';
-                                conn.query(sql).then(() => {
-                                    console.log("Dropou a database!");
-                                    return true;
-                                });
-                            });
-                        }).catch(error => { 
-                            throw error;
-                        });
-                    }).catch(error => { 
-                        throw error;
-                    });
+                    return;
                 }).catch(error => { 
-                    throw error;
+                   throw error;
                 });
             }).catch(error => { 
                 throw error;
@@ -65,7 +63,5 @@ async function doDatabaseTest() {
         }).catch(error => { 
             throw error;
         });
-    }).catch(error => { 
-        throw error;
     });
 }

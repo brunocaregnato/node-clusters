@@ -1,15 +1,17 @@
 {
   "name": "clusters",
   "version": "1.0.0",
-  "description": "tcc",
+  "description": "node clusters implementation for tcc",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "testcluster"
   },
-  "author": "",
+  "author": "Bruno Miguel Caregnato",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
-    "mysql2": "^2.2.5"
+    "mysql2": "^2.2.5",
+    "socket.io": "4.1"
   }
 }

@@ -1,9 +1,9 @@
 config: 
   target: "http://localhost:8080"
   phases:
-    - duration: 10
-      arrivalRate: 5000
+    - duration: 60
+      arrivalRate: 1000
 scenarios:
   - flow:
     - get:
-        url: "/"
+        url: "/sieve"

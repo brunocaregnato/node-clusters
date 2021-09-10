@@ -5,7 +5,7 @@ export default class Database {
         if(global.connection && global.connection.state !== 'disconnected')
             return global.connection;
     
-        const connect = await mysql.createConnection('mysql://root:Juventude99!@localhost:3306/bancomysql');
+        const connect = await mysql.createConnection('mysql://root:password@localhost:3306/bancomysql');
         global.connection = connect;
         return connect;
     }

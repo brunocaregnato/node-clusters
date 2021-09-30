@@ -10,6 +10,6 @@
   "author": "Bruno Miguel Caregnato",
   "license": "ISC",
   "dependencies": {
-    "mysql2": "2.3.0"
+    "mariadb": "^2.5.4"
   }
 }

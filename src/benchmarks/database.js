@@ -16,7 +16,6 @@ export default class Database {
             VALUES ('Bruno Caregnato', str_to_date('12-02-1996','%m-%d-%Y'), 'M' , 'Porto Alegre', 
                 'Avenida Protasio Alves', 255)`;
         conn.query(sql).then((row) => {
-            console.log(row);
             const ordid = row.insertId;
             sql = 'SELECT * FROM pessoa';
             conn.query(sql).then(() => {

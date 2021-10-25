@@ -9,7 +9,7 @@ export default class GaussianElimination {
 
         let i, k, j;
         const n = A.length;
-    
+
         // Gera matriz aumentada
         for (i = 0; i < n; i++) A[i].push(x[i]);    
     
